@@ -16,6 +16,7 @@ import Clases.tipoIVA;
 import Clases.tipoMoneda;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -452,6 +453,12 @@ public class AltaFactura extends javax.swing.JFrame {
         jDateChooser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jDateChooserKeyPressed(evt);
+            }
+        });
+
+        jCBMoneda.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCBMonedaItemStateChanged(evt);
             }
         });
 
@@ -1409,6 +1416,13 @@ public class AltaFactura extends javax.swing.JFrame {
     private void jCheckBoxIvaIncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxIvaIncActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxIvaIncActionPerformed
+
+    private void jCBMonedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBMonedaItemStateChanged
+        // TODO add your handling code here:
+        Date fechaSeleccionada = this.jDateChooser.getDate();
+        //A la fecha seleccionada hay que restarle 1 día.
+        Conexion.getInstance().comprobarFechaCotizacion();
+    }//GEN-LAST:event_jCBMonedaItemStateChanged
 
     private void CalcularTotales_sinIVA_inc() {
         float subtotal = 0, iva_minimo = 0, iva_basico = 0, total = 0;

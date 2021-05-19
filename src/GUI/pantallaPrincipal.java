@@ -81,7 +81,12 @@ public class pantallaPrincipal extends javax.swing.JFrame {
         }
         setLocationRelativeTo(null);
         
-        cargarCotizaciones();
+        try{
+           cargarCotizaciones(); 
+        }catch(Exception e){
+            //alerta.
+        }
+        
     }
 
     /**
@@ -118,6 +123,8 @@ public class pantallaPrincipal extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
 
         jMenuItem11.setText("jMenuItem11");
 
@@ -274,6 +281,17 @@ public class pantallaPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem16);
 
+        jMenuItem17.setText("Modificar cotización");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem17);
+
+        jMenuItem18.setText("Eliminar cotización.");
+        jMenu5.add(jMenuItem18);
+
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -414,6 +432,13 @@ public class pantallaPrincipal extends javax.swing.JFrame {
         lCE.show();
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        // TODO add your handling code here:
+        modificarCotización mC = new modificarCotización();
+        mC.setLocationRelativeTo(null);
+        mC.setVisible(true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -467,6 +492,8 @@ public class pantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

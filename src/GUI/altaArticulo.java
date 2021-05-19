@@ -7,6 +7,7 @@ package GUI;
 
 import BD.Conexion;
 import Clases.Articulo;
+import Clases.Cotizacion;
 import Clases.IVA;
 import Clases.Proveedor;
 import Clases.controladorBasura;
@@ -119,6 +120,10 @@ public class altaArticulo extends javax.swing.JFrame {
             }
         }
         
+    }
+
+    altaArticulo(Cotizacion c, JTable jTable1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**

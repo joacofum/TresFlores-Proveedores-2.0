@@ -500,7 +500,7 @@ public class Conexion {
         List<Cotizacion> listaCotizaciones = null;
         em.getTransaction().begin();
         try {
-            listaCotizaciones = em.createNativeQuery("SELECT * FROM cotizacion", Cotizacion.class)
+            listaCotizaciones = em.createNativeQuery("SELECT * FROM cotizacion ORDER BY fecha ASC", Cotizacion.class)
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -508,4 +508,9 @@ public class Conexion {
         }
         return listaCotizaciones;
     }
+
+    public void comprobarFechaCotizacion() {
+        
+    }
+
 }

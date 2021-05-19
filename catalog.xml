@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://cotizaciones.bcu.gub.uy/wscotizaciones/servlet/awsbcucotizaciones?wdsl" uri="xml-resources/web-service-references/awsbcucotizaciones_wdsl/wsdl/cotizaciones.bcu.gub.uy/wscotizaciones/servlet/awsbcucotizaciones.wdsl.xml"/>
+    <system systemId="https://cotizaciones.bcu.gub.uy/wscotizaciones/servlet/awsbcucotizaciones?wsdl" uri="xml-resources/web-service-references/awsbcucotizaciones/wsdl/cotizaciones.bcu.gub.uy/wscotizaciones/servlet/awsbcucotizaciones.wsdl"/>
+</catalog>

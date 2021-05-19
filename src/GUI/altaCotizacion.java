@@ -8,6 +8,7 @@ package GUI;
 import BD.Conexion;
 import Clases.Cotizacion;
 import java.util.Date;
+import javax.swing.JTable;
 
 /**
  *
@@ -23,7 +24,12 @@ public class altaCotizacion extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
     }
-
+    
+    altaCotizacion(Cotizacion c, JTable jTable1) {
+        initComponents();
+        this.jDateChooser.setDate(c.getFecha());
+        this.jTextField1.setText(String.valueOf(c.getImporte()));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
