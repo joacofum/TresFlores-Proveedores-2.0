@@ -15,6 +15,7 @@ import Clases.tipoComprobante;
 import Clases.tipoIVA;
 import Clases.tipoMoneda;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -746,7 +747,10 @@ public class AltaFactura extends javax.swing.JFrame {
                 fac.setNroComprobante(Integer.parseInt(this.jTextNumeroFact.getText()));
                 fac.setPendiente(0);
                 fac.setTotal(Float.parseFloat(this.jTextTOTAL.getText()));
-                fac.setFecha(this.jDateChooser.getDate());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date dat = this.jDateChooser.getDate();
+                sdf.format(dat);
+                fac.setFecha(dat);
                 fac.setProveedor((Proveedor) this.jCBProveedor.getSelectedItem());
 
                 if (this.jCBMoneda.getSelectedItem() == tipoMoneda.$U) {
@@ -800,7 +804,11 @@ public class AltaFactura extends javax.swing.JFrame {
                 fac.setNroComprobante(Integer.parseInt(this.jTextNumeroFact.getText()));
                 fac.setPendiente(Float.parseFloat(this.jTextTOTAL.getText()));
                 fac.setTotal(Float.parseFloat(this.jTextTOTAL.getText()));
-                fac.setFecha(this.jDateChooser.getDate());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date dat = this.jDateChooser.getDate();
+                sdf.format(dat);
+                fac.setFecha(dat);
+                
                 fac.setProveedor((Proveedor) this.jCBProveedor.getSelectedItem());
 
                 if (this.jCBMoneda.getSelectedItem() == tipoMoneda.$U) {
@@ -852,7 +860,10 @@ public class AltaFactura extends javax.swing.JFrame {
                 fac.setNroComprobante(Integer.parseInt(this.jTextNumeroFact.getText()));
                 fac.setPendiente(0);
                 fac.setTotal(Float.parseFloat(this.jTextTOTAL.getText()));
-                fac.setFecha(this.jDateChooser.getDate());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date dat = this.jDateChooser.getDate();
+                sdf.format(dat);
+                fac.setFecha(dat);
                 fac.setProveedor((Proveedor) this.jCBProveedor.getSelectedItem());
 
                 if (this.jCBMoneda.getSelectedItem() == tipoMoneda.$U) {
@@ -890,7 +901,9 @@ public class AltaFactura extends javax.swing.JFrame {
                     h.setProveedor((Proveedor) this.jCBProveedor.getSelectedItem());
                     h.setPrecio(precio);
                     h.setProducto(this.ListaArticulo.get(i));
-                    h.setFecha(this.jDateChooser.getDate());
+                    Date dat2 = this.jDateChooser.getDate();
+                    sdf.format(dat2);
+                    h.setFecha(dat2);
                     this.ListaArticulo.get(i).getHistoriales().add(h);
                     Conexion.getInstance().persist(h);
                     
