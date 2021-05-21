@@ -16,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.Iterator;
 import java.util.List;
 import javafx.scene.control.Alert;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,7 +33,9 @@ public class articulosBuscador extends javax.swing.JFrame {
         //bordes redondeados
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 30, 30);
         AWTUtilities.setWindowShape(this, forma);
-
+        
+        this.AT = AT;
+        Proveedor p = this.AT.getProveedor();
         List<Articulo> ListaArticulo = Conexion.getInstance().getArticuloxNombre_Descripcion(texto);
         sizeconsulta = ListaArticulo.size();
         articulos = new Articulo[ListaArticulo.size()];
@@ -42,12 +45,55 @@ public class articulosBuscador extends javax.swing.JFrame {
             articulos[cont] = (Articulo) it.next();
             cont++;
         }
-        this.JListArticulos.setListData(articulos);
-        this.AT = AT;
+        
         if (sizeconsulta == 1) {
-            this.AT.articulo_seleccionado = articulos[0];
-            String textoArticulo = articulos[0].getNombre() + " - " + articulos[0].getDescripcion();
-            this.AT.setTextArticulo(textoArticulo);
+            if (!ListaArticulo.get(0).getProveedores().contains(p)) {
+                //articulodeesteprov = true;
+                int resp = JOptionPane.showConfirmDialog(this, "El articulo seleccionado no esta asociado a este proveedor, desea asociarlo?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                if (resp == 0) {
+                    p.getArticulos().add(ListaArticulo.get(0));
+                    ListaArticulo.get(0).getProveedores().add(p);
+                    Conexion.getInstance().merge(p);
+                    Conexion.getInstance().merge(ListaArticulo.get(0));
+                    this.AT.articulo_seleccionado = articulos[0];
+                    String textoArticulo = articulos[0].getCodigo() + " - " + articulos[0].getNombre() + " - " + articulos[0].getDescripcion();
+                    this.AT.setTextArticulo(textoArticulo);
+                }
+            } else {
+                this.AT.articulo_seleccionado = articulos[0];
+                String textoArticulo = articulos[0].getCodigo() + " - " + articulos[0].getNombre() + " - " + articulos[0].getDescripcion();
+                this.AT.setTextArticulo(textoArticulo);
+            }
+
+        }
+
+        //para que liste primero los articulos de este prov
+        this.jCheckBoxArtdeesteProv.setSelected(true);
+        if (this.jCheckBoxArtdeesteProv.isSelected()) {
+
+            int tamaño = 0;
+            for (int i = 0; i < this.articulos.length; i++) {
+                for (int b = 0; b < this.articulos[i].getProveedores().size(); b++) {
+                    if (this.articulos[i].getProveedores().get(b).getRazonSocial().equals(p.getRazonSocial())) {
+                        tamaño++;
+                    }
+                }
+            }
+            Articulo[] articulosnuevos = new Articulo[tamaño];
+            int cont2 = 0;
+
+            for (int i = 0; i < this.articulos.length; i++) {
+                for (int b = 0; b < this.articulos[i].getProveedores().size(); b++) {
+                    if (this.articulos[i].getProveedores().get(b).getRazonSocial().equals(p.getRazonSocial())) {
+                        articulosnuevos[cont2] = this.articulos[i];
+                        cont2++;
+                    }
+                }
+            }
+            this.JListArticulos.setListData(articulosnuevos);
+
+        } else {
+            this.JListArticulos.setListData(this.articulos);
         }
 
         this.setLocationRelativeTo(null);
@@ -139,11 +185,30 @@ public class articulosBuscador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JListArticulosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JListArticulosKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.AT.articulo_seleccionado = this.JListArticulos.getSelectedValue();
-            String textoArticulo = this.JListArticulos.getSelectedValue().getNombre() + " - " + this.JListArticulos.getSelectedValue().getDescripcion();
-            this.AT.setTextArticulo(textoArticulo);
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             this.dispose();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Proveedor p = this.AT.getProveedor();
+            if(!this.JListArticulos.getSelectedValue().getProveedores().contains(p)){
+                int resp = JOptionPane.showConfirmDialog(this, "El articulo seleccionado no esta asociado a este proveedor, desea asociarlo?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                if (resp == 0) {
+                    p.getArticulos().add(this.JListArticulos.getSelectedValue());
+                    this.JListArticulos.getSelectedValue().getProveedores().add(p);
+                    Conexion.getInstance().merge(p);
+                    Conexion.getInstance().merge(this.JListArticulos.getSelectedValue());
+                    this.AT.articulo_seleccionado = this.JListArticulos.getSelectedValue();
+                    String textoArticulo = this.JListArticulos.getSelectedValue().getCodigo() + " - " + this.JListArticulos.getSelectedValue().getNombre() + " - " + this.JListArticulos.getSelectedValue().getDescripcion();
+                    this.AT.setTextArticulo(textoArticulo);
+                    this.dispose();
+                }
+                
+            this.dispose();
+            }else{
+                this.AT.articulo_seleccionado = this.JListArticulos.getSelectedValue();
+                String textoArticulo = this.JListArticulos.getSelectedValue().getCodigo() + " - " + this.JListArticulos.getSelectedValue().getNombre() + " - " + this.JListArticulos.getSelectedValue().getDescripcion();
+                this.AT.setTextArticulo(textoArticulo);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_JListArticulosKeyPressed
 
@@ -178,9 +243,10 @@ public class articulosBuscador extends javax.swing.JFrame {
                 }
             }
             this.JListArticulos.setListData(articulosnuevos);
-            
+            this.JListArticulos.requestFocus();
         } else {
             this.JListArticulos.setListData(this.articulos);
+            this.JListArticulos.requestFocus();
         }
     }//GEN-LAST:event_jCheckBoxArtdeesteProvItemStateChanged
 
@@ -213,6 +279,8 @@ public class articulosBuscador extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(articulosBuscador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

@@ -17,6 +17,7 @@ import Clases.Proveedor;
 import Clases.Recibo;
 import Clases.Usuario;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -217,6 +218,7 @@ public class Conexion {
         try {
             listaA = em.createNativeQuery("SELECT * FROM articulo\n" +
                                                 "WHERE nombre LIKE :texto\n" +
+                                                "   OR codigo LIKE :texto\n" +
                                                 "   OR descripcion LIKE :texto", Articulo.class)
                     .setParameter("texto", texto)
                     .getResultList();
@@ -509,8 +511,46 @@ public class Conexion {
         return listaCotizaciones;
     }
 
-    public void comprobarFechaCotizacion() {
-        
+public Cotizacion traerCotizacion(LocalDate fechaCotizacion) {
+        Cotizacion cotizacion = null;
+
+        int anio = fechaCotizacion.getYear();
+        int mes = fechaCotizacion.getMonthValue();
+        int dia = fechaCotizacion.getDayOfMonth();
+
+        String fecha = "'" + anio + "-" + mes + "-" + dia + "'";
+        EntityManager em = getEntity();
+        em.getTransaction().begin();
+        try {
+            cotizacion = (Cotizacion) em.createNativeQuery("SELECT * FROM cotizacion WHERE DATE(cotizacion.fecha) = " + fecha + "", Cotizacion.class)
+                    .getSingleResult();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        }
+        return cotizacion;
+    }
+
+    public List<Cotizacion> comprobarFechaCotizacion(LocalDate fechaCotizacion) {
+        List<Cotizacion> listaCotizaciones = null;
+
+        int anio = fechaCotizacion.getYear();
+        int mes = fechaCotizacion.getMonthValue();
+        int dia = fechaCotizacion.getDayOfMonth();
+        String fecha = "'" + anio + "-" + mes + "-" + dia + "'";
+
+        EntityManager em = getEntity();
+        em.getTransaction().begin();
+        try {
+            listaCotizaciones = (List<Cotizacion>) em.createNativeQuery("SELECT * FROM cotizacion WHERE fecha <= " + fecha + ""
+                    + "ORDER BY fecha DESC", Cotizacion.class)
+                    .getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            em.getTransaction().rollback();
+        }
+        return listaCotizaciones;
     }
 
 }

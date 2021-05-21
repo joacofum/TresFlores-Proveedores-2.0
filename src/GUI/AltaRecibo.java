@@ -570,6 +570,11 @@ public class AltaRecibo extends javax.swing.JFrame {
             }
         });
     }
+    
+        private void jTextSerieFocusLost(java.awt.event.FocusEvent evt) {                                     
+        String cadena= (this.jTextSerie.getText()).toUpperCase();
+        this.jTextSerie.setText(cadena);
+    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;

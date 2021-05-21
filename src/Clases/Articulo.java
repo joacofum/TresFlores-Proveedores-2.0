@@ -147,7 +147,7 @@ public class Articulo implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNombre() + " - " + this.getDescripcion();
+        return this.getCodigo() + " - " + this.getNombre() + " - " + this.getDescripcion();
     }
 
     public void setProveedor(Proveedor p) {
